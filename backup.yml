@@ -1,0 +1,27 @@
+---
+- name: config backup for switches
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: get timestamp
+      shell: "date +%Y%m%d-%H-%M-%S"
+      register: timestamp
+
+    - name: backup routers config
+      iosxe_config: 
+        backup: yes
+        backup_options:
+          filename: "running-config-{{ timestamp.stdout }}"
+          dir_path: "data/{{ inventory_hostname }}"
+      when: ansible_network_os == "nxos"
+
+    - name: HTTPS | push all changes.
+      git_acp:
+        user: cianfi
+        token: X
+        path: data/
+        branch: master
+        comment: backup_{{ timestamp.stdout }}
+        add: [ "." ]
+        mode: https
+        url: https://github.com/cianfi/com615-awx-playbooks.git
