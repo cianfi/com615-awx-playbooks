@@ -13,7 +13,7 @@
         backup_options:
           filename: "running-config-{{ timestamp.stdout }}"
           dir_path: "data/{{ inventory_hostname }}"
-      when: ansible_network_os == "nxos"
+      when: ansible_network_os == "cisco.ios.ios"
 
     - name: HTTPS | push all changes.
       git_acp:
