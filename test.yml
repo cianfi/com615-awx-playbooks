@@ -1,6 +1,6 @@
 ---
 - name: test
-  hosts: Routers
+  hosts: routers
   tasks:
       - name: run echo command
         command: echo hello
