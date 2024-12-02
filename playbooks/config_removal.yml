@@ -4,6 +4,8 @@
     - name: days
       prompt: How many days of configuration do you want to remove?
       private: false
+  vars:
+    message: "Removed config older than {{ days }} days."
 
   tasks:
     - name: Find files older than {{ days }} days
@@ -18,3 +20,7 @@
       ansible.builtin.command:
         cmd: "rm {{ item.path }}"
       with_items: "{{ found_files.files }}"
+
+    - name: Push updates to Github Backups
+      include_tasks: config_github.yml
+      when: found_files.files | length > 0

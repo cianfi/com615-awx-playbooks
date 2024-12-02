@@ -1,0 +1,15 @@
+---
+- name: Git Add
+  ansible.builtin.command:
+    cmd: "git add backup/"
+    chdir: "com615-awx-backups/"
+
+- name: Git Commit
+  ansible.builtin.command:
+    cmd: "git commit -m '{{ message }}'"
+    chdir: "com615-awx-backups/"
+
+- name: Git Push
+  ansible.builtin.command:
+    cmd: "git push"
+    chdir: "com615-awx-backups/"

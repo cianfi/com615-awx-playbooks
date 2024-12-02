@@ -17,6 +17,10 @@
       ansible.builtin.set_fact:
         group_name: "{{ group_names[0] }}"
 
+    - name: Creating GitHub Message
+      ansible.builtin.set_fact:
+        message: 'Updated: {{ timestamp.stdout }}'
+
     - name: Configuration Backup
       ios_config:
         backup: true
@@ -24,17 +28,5 @@
           dir_path: ./com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/
           filename: "{{ timestamp.stdout }}.cfg"
 
-    - name: Git Add
-      ansible.builtin.command:
-        cmd: "git add backup/"
-        chdir: "com615-awx-backups/"
-
-    - name: Git Commit
-      ansible.builtin.command:
-        cmd: "git commit -m 'Updated: {{ timestamp.stdout }}'"
-        chdir: "com615-awx-backups/"
-
-    - name: Git Push
-      ansible.builtin.command:
-        cmd: "git push"
-        chdir: "com615-awx-backups/"
+    - name: Send to GitHub
+      include_tasks: config_github.yml
