@@ -28,5 +28,9 @@
           dir_path: ./com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/
           filename: "{{ timestamp.stdout }}.cfg"
 
+    - name: WHERE AM I
+      ansible.builtin.command:
+        cmd: "pwd"
+
     - name: Send to GitHub
       include_tasks: config_github.yml
