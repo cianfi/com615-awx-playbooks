@@ -26,7 +26,7 @@
 
     - name: Fetch backup file to local machine
       ansible.builtin.fetch:
-        src: /tmp/com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/{{ timestamp.stdout }}.cfg
+        src: ./com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/{{ timestamp.stdout }}.cfg
         dest: /home/workuser/CC/com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/
 
 - name: "Push to GitHub"
