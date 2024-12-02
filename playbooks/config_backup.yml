@@ -1,0 +1,40 @@
+---
+- name: ""
+  hosts: SOUTHAMPTON_DATACENTER
+  # When we want to add additional list of hosts, we use : between
+  # Example: SOU-GW:SOU-S:SOU-L
+  gather_facts: no
+  no_log: false
+  collections:
+    - lvrfrc87.git_acp
+
+  tasks:
+    - name: Timestamp
+      ansible.builtin.shell: "date +%Y-%m-%d"
+      register: timestamp
+
+    - name: Group Name
+      ansible.builtin.set_fact:
+        group_name: "{{ group_names[0] }}"
+
+    - name: Configuration Backup
+      ios_config:
+        backup: true
+        backup_options:
+          dir_path: com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/
+          filename: "{{ timestamp.stdout | to_nice_json }}.cfg.json"
+
+#    - name: Git Add
+#      ansible.builtin.command:
+#        cmd: "git add backup/"
+#        chdir: "com615-awx-backups/"
+
+#    - name: Git Commit
+#      ansible.builtin.command:
+#        cmd: "git commit -m 'Updated: {{ timestamp.stdout }}'"
+#        chdir: "com615-awx-backups/"
+
+#    - name: Git Push
+ #     ansible.builtin.command: 
+  #      cmd: "git push"
+   #     chdir: "com615-awx-backups/"

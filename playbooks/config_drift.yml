@@ -1,0 +1,50 @@
+---
+- hosts: SOUTHAMPTON_DATACENTER
+  gather_facts: true
+  become: false
+  collections:
+    - cisco.ios
+  tasks:
+    - set_fact:
+        _seven_days_ago: "{{ '%Y-%m-%d' | strftime((ansible_date_time['epoch']|int)-(86400*7)) }}"
+        _fourteen_days_ago: "{{ '%Y-%m-%d' | strftime((ansible_date_time['epoch']|int)-(86400*14)) }}"
+        _thirty_days_ago: "{{ '%Y-%m-%d' | strftime((ansible_date_time['epoch']|int)-(86400*30)) }}"
+
+     # This task is to ensure that the local configuration repository is up-to-date
+    - name: Group Name
+      ansible.builtin.set_fact:
+        group_name: "{{ group_names[0] }}"
+
+    # Create a timestamp with YYYY-MM-DD
+    - name: Timestamp
+      ansible.builtin.shell: "date +%Y-%m-%d"
+      register: timestamp
+
+    # Create stage area
+    - name: Create Staging Area
+      ansible.builtin.command:
+        cmd: mkdir stage
+
+    # Get the current running configuration of the device(s)
+    - name: Configuration Backup for comparison
+      ios_config:
+        backup: true
+        backup_options:
+          dir_path: "stage/"
+          filename: "{{ inventory_hostname }}.cfg"
+
+    - name: Configuration Drift
+      copy:
+        src: "com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/{{ _seven_days_ago }}.cfg"
+        dest: "stage/{{ inventory_hostname }}.cfg"
+      check_mode: yes
+      diff: yes
+
+    - name: Display drift
+      debug:
+        var: config_drift.diff
+
+    # Delete Stage Area
+    - name: Delete Stage
+      ansible.builtin.command:
+        cmd: rm -rf stage/
