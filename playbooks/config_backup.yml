@@ -13,6 +13,10 @@
       ansible.builtin.shell: "date +%Y-%m-%d"
       register: timestamp
 
+    - name: Create Message
+      ansible.builtin.set_fact:
+        message: "Updated {{ timestamp.stdout }}"
+
     - name: Group Name
       ansible.builtin.set_fact:
         group_name: "{{ group_names[0] }}"
@@ -21,16 +25,8 @@
       ios_config:
         backup: true
         backup_options:
-          dir_path: ./com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/
+          dir_path: com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/
           filename: "{{ timestamp.stdout }}.cfg"
 
-    - name: Fetch backup file to local machine
-      ansible.builtin.fetch:
-        src: ./com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/{{ timestamp.stdout }}.cfg
-        dest: /home/workuser/CC/com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/
-
-- name: "Push to GitHub"
-  hosts: localhost
-  tasks:
     - name: Send to GitHub
       include_tasks: config_github.yml

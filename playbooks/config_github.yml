@@ -1,9 +1,4 @@
 ---
-#- name: Set GitHub URL
- # ansible.builtin.command:
-  #  cmd: "git config remote.origin.url https://cianfi:{{ pac_key }}@github.com/cianfi/com615-awx-backups.git"
-   # chdir: "com615-awx-backups/"
-
 - name: Git Add
   ansible.builtin.command:
     cmd: "git add backup/"
