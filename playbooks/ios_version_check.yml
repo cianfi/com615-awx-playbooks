@@ -1,0 +1,18 @@
+---
+- name: "Collecting device facts"
+  hosts: SOUTHAMPTON_DATACENTER
+  vars_prompt:
+    - name: "desired_ios_version"
+      prompt: "Enter desired IOS version: "
+      private: no
+
+  tasks:
+    - name: "Get Device Facts"
+      ios_facts:
+      register: device_facts
+
+    - name: "Get Non compliant devices"
+      debug:
+        msg:
+          Device {{ device_facts.ansible_facts.ansible_net_hostname }} has version {{ device_facts.ansible_facts.ansible_net_version }} which does not match {{ desired_ios_version }}
+      when: device_facts.ansible_facts.ansible_net_version != desired_ios_version
