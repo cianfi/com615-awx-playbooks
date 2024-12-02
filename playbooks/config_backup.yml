@@ -1,6 +1,6 @@
 ---
 - name: ""
-  hosts: SOUTHAMPTON_DATACENTER
+  hosts: SOU-GW
   # When we want to add additional list of hosts, we use : between
   # Example: SOU-GW:SOU-S:SOU-L
   gather_facts: no
