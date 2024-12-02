@@ -1,20 +1,20 @@
 ---
 - name: Set GitHub URL
   ansible.builtin.command:
-    cmd: "git remote set-url 'origin' https://{{ pac_key }}@github.com/cianfi/com615-awx-backups.git"
+    cmd: "git remote set-url 'origin' https://{{ pac_key }}@github.com/cianfi/com615-awx-backups.git && git add backup/ && git commit -m '{{ message }}' && git push"
     chdir: "com615-awx-backups/"
 
-- name: Git Add
-  ansible.builtin.command:
-    cmd: "git add backup/"
-    chdir: "com615-awx-backups/"
+#- name: Git Add
+ # ansible.builtin.command:
+  #  cmd: "git add backup/"
+   # chdir: "com615-awx-backups/"
 
-- name: Git Commit
-  ansible.builtin.command:
-    cmd: "git commit -m 'PASS?'"
-    chdir: "com615-awx-backups/"
+#- name: Git Commit
+ # ansible.builtin.command:
+  #  cmd: "git commit -m 'PASS?'"
+   # chdir: "com615-awx-backups/"
 
-- name: Git Push
-  ansible.builtin.command:
-    cmd: "git push"
-    chdir: "com615-awx-backups/"
+#- name: Git Push
+ # ansible.builtin.command:
+  #  cmd: "git push"
+   # chdir: "com615-awx-backups/"
