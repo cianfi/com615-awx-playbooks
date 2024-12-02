@@ -4,6 +4,16 @@
     cmd: "git remote set-url 'origin' https://{{ pac_key }}@github.com/cianfi/com615-awx-backups.git"
     chdir: "com615-awx-backups/"
 
+- name: TEST
+  ansible.builtin.command:
+    cmd: "pwd"
+    chdir: "com615-awx-backups/"
+
+- name: WHATS IN HERE
+  ansible.builtin.command:
+    cmd: "ls -la"
+    chdir: "com615-awx-backups/"
+
 - name: Git Add
   ansible.builtin.command:
     cmd: "git add backup/"

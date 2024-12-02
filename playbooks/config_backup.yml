@@ -17,10 +17,6 @@
       ansible.builtin.set_fact:
         group_name: "{{ group_names[0] }}"
 
-#    - name: Creating GitHub Message
- #     ansible.builtin.set_fact:
-  #      message: 'Updated: {{ timestamp.stdout }}'
-
     - name: Configuration Backup
       ios_config:
         backup: true
