@@ -1,0 +1,11 @@
+---
+- name: "Collecting device facts"
+  hosts: SOUTHAMPTON_DATACENTER
+  tasks:
+    - name: "Get Device Facts"
+      ios_facts:
+        gather_network_resources: all
+      register: device_facts
+
+    - debug:
+        msg: "{{device_facts.ansible_facts.ansible_network_resources}}"

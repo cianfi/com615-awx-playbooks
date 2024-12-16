@@ -1,16 +1,12 @@
 ---
 - hosts: 127.0.0.1
-  vars_prompt:
-    - name: days
-      prompt: How many days of configuration do you want to remove?
-      private: false
   vars:
     message: "Removed config older than {{ days }} days."
-
+    days: 3
   tasks:
     - name: Find files older than {{ days }} days
       ansible.builtin.find:
-        paths: com615-awx-backups/backup/
+        paths: "/home/workuser/CC/com615-awx-backups/backup"
         age: "{{ days }}d"
         file_type: file
         recurse: yes
