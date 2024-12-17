@@ -1,7 +1,7 @@
 acls:
   standard:
     - name: "ST_INSIDE_ACL_10"
-      description: "Standard ACL for inside the Datacentre Network"
+      remark: "Standard ACL for inside the Datacentre Network"
       rules:
         - action: "permit"
           source: "192.168.10.0 0.0.0.255"
@@ -10,7 +10,7 @@ acls:
 
   extended:
     - name: "EX_SSH_ACL_100"
-      description: "Extended ACL for ssh access to internal network"
+      remark: "Extended ACL for ssh access to internal network"
       rules:
         - action: "permit"
           protocol: "ssh"

@@ -1,0 +1,36 @@
+---
+- name: Golden Standard ACL Configuration Deployment
+  hosts: SOU-GW
+  gather_facts: no
+  tasks:
+    - name: Get ACL Information
+      ansible.builtin.include_vars:
+        file: "../gold_standard/router_acl.yml"
+
+    - name: Configure Standard ACL
+      cisco.ios.ios_config:
+        lines: >-
+          {% if item.remark is defined %}
+          remark {{ item.remark }}
+          {% endif %}
+
+          {% for rule in item.rules %}
+          {{ rule.action }} {{ rule.source }}
+          {% endfor %}
+        parents:
+          - "ip access-list standard {{ item.name }}"
+      with_items: "{{ acls.standard }}"
+
+    - name: Configure Extended ACL
+      cisco.ios.ios_config:
+        lines: >-
+          {% if item.remark is defined %}
+          remark {{ item.remark }}
+          {% endif %}
+
+          {% for rule in item.rules %}
+          {{ rule.action }} {{ rule.protocol | default('') }} {{ rule.source }} {{ rule.destination | default('') }}
+          {% endfor %}
+        parents:
+          - "ip access-list extended {{ item.name }}"
+      with_items: "{{ acls.extended }}"
