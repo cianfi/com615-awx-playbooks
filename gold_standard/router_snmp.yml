@@ -1,0 +1,12 @@
+snmp:
+  community_strings:
+    - name: "public"
+      access: "RO"
+    - name: "private"
+      access: "RW"
+  contact: "admin@cache&carry.com"
+  location: "Data Center 1"
+  host:
+    ip: "192.168.1.100"
+    version: "2c"
+    community: "public"

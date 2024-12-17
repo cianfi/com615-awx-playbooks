@@ -1,0 +1,22 @@
+interfaces:
+  - name: "GigabitEthernet1"
+    description: "Uplink interface to ISP"
+    ip_address: "192.168.56.2"
+    subnet_mask: "255.255.255.0"
+    bandwidth: 100000
+    shutdown: false
+
+  - name: "Loopback10"
+    description: "Test Loopback interface shutdown"
+    ip_address: "192.168.57.2"
+    subnet_mask: "255.255.255.0"
+    bandwidth: 100000
+
+    shutdown: true
+
+  - name: "Loopback20"
+    ip_address: "192.168.58.2"
+    subnet_mask: "255.255.255.0"
+    bandwidth: 100000
+    description: "Test Loopbacck interface no shutdown"
+    shutdown: false
