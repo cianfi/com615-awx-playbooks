@@ -35,5 +35,9 @@
           - "ip access-list extended {{ item.name }}"
       with_items: "{{ acls.extended }}"
 
+- name: Send Webex Notification
+  hosts: localhost
+  gather_facts: no
+  tasks:
     - name: Alert
       include_tasks: alert.yml
