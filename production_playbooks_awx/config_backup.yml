@@ -39,6 +39,12 @@
         chdir: "/home/workuser/CC/"
       when: repo_stat.stat.exists == false
 
+    - name: Update existing Git Backups Repository
+      ansible.builtin.command:
+        cmd: "git pull origin main"
+        chdir: "/home/workuser/CC/com615-awx-backup/"
+      when: repo_stat.stat.exists == true
+
     - name: Saving to File
       copy:
         content: "{{device_facts.ansible_facts.ansible_network_resources | to_nice_json}}"
