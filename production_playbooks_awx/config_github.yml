@@ -1,7 +1,7 @@
 ---
 - name: Set Git Remote
   ansible.builtin.command:
-    cmd: "git remote add origin https://{{pat_key}}@github.com/cianfi/com615-awx-backups.git"
+    cmd: "git remote set-url origin https://{{pat_key}}@github.com/cianfi/com615-awx-backups.git"
     chdir: "/home/workuser/CC/com615-awx-backups/"
 
 - name: Git Add
