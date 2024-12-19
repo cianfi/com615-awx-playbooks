@@ -22,11 +22,22 @@
           - "!vlans"
       register: device_facts
 
+    - name: Ensure the backup directory exists
+      ansible.builtin.file:
+        path: "/home/workuser/CC"
+        state: directory
+        mode: '0755'
+
+    - name: Check if the Git repository directory exists
+      ansible.builtin.stat:
+        path: "/home/workuser/CC/com615-awx-backups"
+      register: repo_stat
+
     - name: Retrieve Git Backups Repository
       ansible.builtin.command:
         cmd: "git clone https://github.com/cianfi/com615-awx-backups.git"
         chdir: "/home/workuser/CC/"
-      when: not ansible_facts['isdir']['/home/workuser/CC/com615-awx-backups']
+      when: repo_stat.stat.exists == false
 
     - name: Saving to File
       copy:
