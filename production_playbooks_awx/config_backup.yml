@@ -42,7 +42,7 @@
     - name: Update existing Git Backups Repository
       ansible.builtin.command:
         cmd: "git pull origin main"
-        chdir: "/home/workuser/CC/com615-awx-backup/"
+        chdir: "/home/workuser/CC/com615-awx-backups/"
       when: repo_stat.stat.exists == true
 
     - name: Saving to File
