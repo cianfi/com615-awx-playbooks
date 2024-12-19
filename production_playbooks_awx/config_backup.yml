@@ -28,6 +28,7 @@
           - acl_interfaces
           - l2_interfaces
           - snmp_server
+          - service
       register: device_facts
 
     - name: Ensure the backup directory exists
