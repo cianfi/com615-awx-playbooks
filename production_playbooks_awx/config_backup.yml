@@ -26,6 +26,7 @@
       ansible.builtin.command:
         cmd: "git clone https://github.com/cianfi/com615-awx-backups.git"
         chdir: "/home/workuser/CC/"
+      when: not ansible_facts['isdir']['/home/workuser/CC/com615-awx-backups']
 
     - name: Saving to File
       copy:
