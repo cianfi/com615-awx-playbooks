@@ -20,3 +20,7 @@
     - name: Push updates to Github Backups
       include_tasks: config_github.yml
       when: found_files.files | length > 0
+
+    - name: Alert
+      include_tasks: alert.yml
+      when: found_files.files | length > 0
