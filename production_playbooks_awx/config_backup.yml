@@ -17,9 +17,8 @@
         group_name: "{{ group_names[0] }}"
 
     - name: Get Device Facts
-      ios_facts:
-        gather_network_resources:
-          - "!vlans"
+      cisco.ios.ios_facts:
+        gather_network_resources: all
       register: device_facts
 
     - name: Ensure the backup directory exists
