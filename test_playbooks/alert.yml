@@ -1,0 +1,11 @@
+---
+  - name: Alerts
+    hosts: localhost
+    tasks:
+    - name: Alert
+      community.general.cisco_webex:
+        recipient_type: roomId
+        recpient_id: "{{webex_recipient_id}}"
+        msg_type: text
+        personal_token: "{{webex_personal_token}}"
+        msg: "{{webex_alert_msg}}"
