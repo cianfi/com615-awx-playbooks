@@ -18,7 +18,16 @@
 
     - name: Get Device Facts
       cisco.ios.ios_facts:
-        gather_network_resources: all
+        gather_network_resources:
+          - l3_interfaces
+          - ntp_global
+          - acls
+          - hostname
+          - interfaces
+          - static_routes
+          - acl_interfaces
+          - l2_interfaces
+          - snmp_server
       register: device_facts
 
     - name: Ensure the backup directory exists
