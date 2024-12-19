@@ -1,9 +1,12 @@
 ---
 - name: "Get Configuration"
   hosts: SOU-GW
+  vars:
+    webex_alert_msg: "Configuration backups complete."
+  vars_files:
+    - secrets.yml
   collections:
     - lvrfrc87.git_acp
-
   tasks:
     - name: Timestamp
       ansible.builtin.shell: "date +%Y-%m-%d"

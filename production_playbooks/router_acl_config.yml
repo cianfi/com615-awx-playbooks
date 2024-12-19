@@ -2,6 +2,10 @@
 - name: Golden Standard ACL Configuration Deployment
   hosts: SOU-GW
   gather_facts: no
+  vars:
+    - webex_alert_msg: "Router ACL Configurations have been applied with golden standard."
+  vars_files:
+    - secrets.yml
   tasks:
     - name: Get ACL Information
       ansible.builtin.include_vars:
@@ -34,3 +38,6 @@
         parents:
           - "ip access-list extended {{ item.name }}"
       with_items: "{{ acls.extended }}"
+
+    - name: Alert
+      include_tasks: alert.yml

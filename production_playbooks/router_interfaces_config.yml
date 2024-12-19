@@ -2,6 +2,10 @@
 - name: Golden Standard Interface Configuration Deployment
   hosts: SOU-GW
   gather_facts: no
+  vars:
+    - webex_alert_msg: "Router Interface Configurations have been applied with golden standard."
+  vars_files:
+    - secrets.yml
   tasks:
     - name: Retrieve Gold Standard Interface Configuration
       ansible.builtin.include_vars:
@@ -17,3 +21,6 @@
         parents:
           - "interface {{item.name}}"
       with_items: "{{interfaces}}"
+
+    - name: Alert
+      include_tasks: alert.yml
