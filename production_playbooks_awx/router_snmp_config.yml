@@ -1,0 +1,36 @@
+---
+- name: Golden Standard SNMP Configuration Deployment
+  hosts: SOU-GW
+  gather_facts: no
+  tasks:
+    - name: Retrieve Gold Standard SNMP Configuration
+      ansible.builtin.include_vars:
+        file: "../gold_standard/router_snmp.yml"
+
+    - name: Set SNMP community strings
+      cisco.ios.ios_config:
+        lines:
+          - "snmp-server community {{ item.name }} {{ item.access }}"
+      with_items: "{{ snmp.community_strings }}"
+
+    - name: Set SNMP Contact
+      cisco.ios.ios_config:
+        lines:
+          - "snmp-server contact {{snmp.contact}}"
+
+    - name: Set SNMP Location
+      cisco.ios.ios_config:
+        lines:
+          - "snmp-server location {{snmp.location}}"
+
+    - name: Set SNMP host
+      cisco.ios.ios_config:
+        lines:
+          - "snmp-server host {{snmp.host.ip}} version {{snmp.host.version}} {{snmp.host.community}}"
+
+- name: Send Webex Notification
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Alert
+      include_tasks: alert.yml
