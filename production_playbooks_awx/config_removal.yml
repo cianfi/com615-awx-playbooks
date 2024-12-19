@@ -1,0 +1,22 @@
+---
+- hosts: 127.0.0.1
+  vars:
+    message: "Removed config older than {{ days }} days."
+    days: 7
+  tasks:
+    - name: Find files older than {{ days }} days
+      ansible.builtin.find:
+        paths: "/home/workuser/CC/com615-awx-backups/backup"
+        age: "{{ days }}d"
+        file_type: file
+        recurse: yes
+      register: found_files
+
+    - name: Remove all files older than {{ days }} days
+      ansible.builtin.command:
+        cmd: "rm {{ item.path }}"
+      with_items: "{{ found_files.files }}"
+
+    - name: Push updates to Github Backups
+      include_tasks: config_github.yml
+      when: found_files.files | length > 0
