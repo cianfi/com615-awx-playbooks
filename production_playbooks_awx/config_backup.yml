@@ -18,7 +18,8 @@
 
     - name: Get Device Facts
       ios_facts:
-        gather_network_resources: all
+        gather_network_resources:
+          - "!vlans"
       register: device_facts
 
     - name: Retrieve Git Backups Repository
