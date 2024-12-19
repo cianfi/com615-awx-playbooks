@@ -16,5 +16,5 @@
 
 - name: Git Push
   ansible.builtin.command:
-    cmd: "git push"
+    cmd: "git push --force"
     chdir: "/home/workuser/CC/com615-awx-backups/"
