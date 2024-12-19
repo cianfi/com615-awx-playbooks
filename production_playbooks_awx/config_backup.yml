@@ -1,0 +1,38 @@
+---
+- name: "Get Configuration"
+  hosts: SOU-GW
+  collections:
+    - lvrfrc87.git_acp
+  tasks:
+    - name: Timestamp
+      ansible.builtin.shell: "date +%Y-%m-%d"
+      register: timestamp
+
+    - name: Create Message
+      ansible.builtin.set_fact:
+        message: "Updated {{ timestamp.stdout }}"
+
+    - name: Group Name
+      ansible.builtin.set_fact:
+        group_name: "{{ group_names[0] }}"
+
+    - name: Get Device Facts
+      ios_facts:
+        gather_network_resources: all
+      register: device_facts
+
+    - name: Retrieve Git Backups Repository
+      ansible.builtin.command:
+        cmd: "git clone https://github.com/cianfi/com615-awx-backups.git"
+        chdir: "/home/workuser/CC/"
+
+    - name: Saving to File
+      copy:
+        content: "{{device_facts.ansible_facts.ansible_network_resources | to_nice_json}}"
+        dest: "/home/workuser/CC/com615-awx-backups/backup/{{ group_name }}/{{ inventory_hostname }}/{{ timestamp.stdout }}.json"
+
+    - name: Send to GitHub
+      include_tasks: config_github.yml
+
+    - name: Alert
+      include_tasks: alert.yml
